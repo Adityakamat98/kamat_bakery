@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kamat Bakery – Dharwad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:   #fdf6ec;
+      --brown:   #5c3d2e;
+      --gold:    #c8902a;
+      --light:   #fff9f2;
+      --dark:    #2e1a0e;
+      --text:    #3d2b1f;
+      --muted:   #8c6d5a;
+      --radius:  12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(253, 246, 236, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(200, 144, 42, 0.15);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 20px rgba(92, 61, 46, 0.12); }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--brown); text-decoration: none;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--text);
+      font-size: .9rem; font-weight: 500; letter-spacing: .03em;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold); color: #fff;
+      border: none; padding: .55rem 1.4rem;
+      border-radius: 50px; font-size: .9rem; font-weight: 600;
+      cursor: pointer; transition: background .2s, transform .15s;
+      text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--brown); transform: translateY(-1px); }
+
+    /* hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--brown); border-radius: 2px; transition: .3s; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      background:
+        linear-gradient(160deg, rgba(253,246,236,.96) 0%, rgba(255,249,242,.9) 60%, rgba(200,144,42,.08) 100%),
+        url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1600&q=80') center/cover no-repeat;
+      padding: 6rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(200,144,42,.12) 0%, transparent 60%);
+    }
+
+    .hero-content { position: relative; max-width: 720px; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(200,144,42,.12); color: var(--gold);
+      font-size: .8rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      padding: .4rem 1.2rem; border-radius: 50px; margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700; line-height: 1.1;
+      color: var(--dark); margin-bottom: 1.2rem;
+    }
+    .hero-title span { color: var(--gold); }
+    .hero-sub {
+      font-size: 1.15rem; color: var(--muted);
+      max-width: 500px; margin: 0 auto 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--gold); color: #fff;
+      padding: .85rem 2.2rem; border-radius: 50px;
+      font-weight: 600; font-size: 1rem; text-decoration: none;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(200,144,42,.35);
+    }
+    .btn-primary:hover { background: var(--brown); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(92,61,46,.3); }
+    .btn-outline {
+      border: 2px solid var(--brown); color: var(--brown);
+      padding: .85rem 2.2rem; border-radius: 50px;
+      font-weight: 600; font-size: 1rem; text-decoration: none;
+      transition: all .2s;
+    }
+    .btn-outline:hover { background: var(--brown); color: #fff; transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; justify-content: center;
+      margin-top: 3.5rem; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700; color: var(--brown); display: block;
+    }
+    .stat-label { font-size: .82rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      text-align: center; font-size: .8rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: .75rem;
+    }
+    .section-title {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700; color: var(--dark); margin-bottom: 1rem;
+    }
+    .section-sub {
+      text-align: center; color: var(--muted);
+      max-width: 520px; margin: 0 auto 3rem; font-size: 1rem;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--cream); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .about-img {
+      border-radius: var(--radius);
+      overflow: hidden; position: relative;
+      box-shadow: 0 20px 60px rgba(92,61,46,.18);
+    }
+    .about-img img { width: 100%; height: 420px; object-fit: cover; display: block; }
+    .about-badge {
+      position: absolute; bottom: 1.5rem; left: 1.5rem;
+      background: var(--gold); color: #fff;
+      padding: .75rem 1.25rem; border-radius: var(--radius);
+      font-weight: 600; font-size: .9rem; line-height: 1.3;
+    }
+    .about-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; color: var(--dark); margin-bottom: 1rem;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: .97rem; }
+    .about-features { display: flex; flex-direction: column; gap: .75rem; margin-top: 1.5rem; }
+    .feature-item {
+      display: flex; align-items: center; gap: .75rem;
+      font-size: .92rem; color: var(--text);
+    }
+    .feature-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(200,144,42,.12); display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+
+    /* ── MENU ── */
+    #menu { background: var(--light); }
+    .menu-tabs {
+      display: flex; gap: .5rem; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 2.5rem;
+    }
+    .tab-btn {
+      padding: .5rem 1.4rem; border-radius: 50px;
+      border: 2px solid transparent; background: transparent;
+      font-size: .88rem; font-weight: 500; cursor: pointer;
+      color: var(--muted); transition: all .2s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--gold); color: #fff; border-color: var(--gold);
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .menu-card {
+      background: #fff; border-radius: var(--radius);
+      overflow: hidden; box-shadow: 0 2px 16px rgba(92,61,46,.07);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .menu-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(92,61,46,.14); }
+    .menu-card-img { height: 180px; overflow: hidden; }
+    .menu-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .menu-card:hover .menu-card-img img { transform: scale(1.06); }
+    .menu-card-body { padding: 1.25rem; }
+    .menu-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; color: var(--dark); margin-bottom: .35rem;
+    }
+    .menu-card-body p { font-size: .85rem; color: var(--muted); margin-bottom: .75rem; }
+    .menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .price { font-weight: 700; color: var(--gold); font-size: 1rem; }
+    .badge-veg {
+      font-size: .7rem; padding: .2rem .6rem; border-radius: 50px;
+      background: #e8f5e9; color: #2e7d32; font-weight: 600;
+    }
+    .badge-bestseller {
+      font-size: .7rem; padding: .2rem .6rem; border-radius: 50px;
+      background: rgba(200,144,42,.12); color: var(--gold); font-weight: 600;
+    }
+
+    /* ── SPECIALTIES ── */
+    #specialties { background: var(--cream); }
+    .spec-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .spec-card {
+      background: #fff; border-radius: var(--radius);
+      padding: 2rem 1.5rem; text-align: center;
+      box-shadow: 0 2px 16px rgba(92,61,46,.06);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .spec-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(92,61,46,.13); }
+    .spec-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .spec-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; color: var(--dark); margin-bottom: .5rem;
+    }
+    .spec-card p { font-size: .875rem; color: var(--muted); }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--brown); }
+    #testimonials .section-label { color: var(--gold); }
+    #testimonials .section-title { color: #fff; }
+    #testimonials .section-sub { color: rgba(255,255,255,.6); }
+    .reviews-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .review-card {
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius); padding: 1.75rem;
+    }
+    .stars { color: var(--gold); font-size: 1rem; margin-bottom: .75rem; }
+    .review-text { color: rgba(255,255,255,.85); font-size: .93rem; margin-bottom: 1.2rem; font-style: italic; }
+    .reviewer { display: flex; align-items: center; gap: .75rem; }
+    .reviewer-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--gold); display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #fff; font-size: .9rem;
+    }
+    .reviewer-name { color: #fff; font-weight: 600; font-size: .9rem; }
+    .reviewer-loc { color: rgba(255,255,255,.45); font-size: .78rem; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--light); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .contact-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; color: var(--dark); margin-bottom: 1.5rem;
+    }
+    .contact-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(200,144,42,.12); display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .contact-item h4 { font-size: .82rem; color: var(--muted); font-weight: 500; margin-bottom: .2rem; text-transform: uppercase; letter-spacing: .06em; }
+    .contact-item p, .contact-item a { color: var(--text); font-size: .95rem; text-decoration: none; }
+    .contact-item a:hover { color: var(--gold); }
+    .map-container {
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: 0 8px 32px rgba(92,61,46,.15); height: 380px;
+    }
+    .map-container iframe { width: 100%; height: 100%; border: none; }
+    .map-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      margin-top: 1rem; color: var(--gold); font-size: .88rem; font-weight: 600;
+      text-decoration: none; transition: color .2s;
+    }
+    .map-link:hover { color: var(--brown); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark); color: rgba(255,255,255,.6);
+      text-align: center; padding: 2.5rem 2rem;
+      font-size: .88rem;
+    }
+    footer .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: .5rem;
+    }
+    footer .footer-logo span { color: var(--gold); }
+    footer p { margin-top: .5rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .about-img img { height: 280px; }
+      .hero-stats { gap: 1.5rem; }
+      section { padding: 3.5rem 1.25rem; }
+      .map-container { height: 300px; }
+    }
+
+    /* ── SCROLL ANIMATION ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Kamat <span>Bakery</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#specialties">Specialties</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Find Us</a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Freshly Baked Every Day</div>
+    <h1 class="hero-title">Kamat <span>Bakery</span></h1>
+    <p class="hero-sub">Dharwad's beloved neighbourhood bakery — bringing warmth, flavour, and tradition to every bite since decades.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">Explore Our Menu</a>
+      <a href="#contact" class="btn-outline">Visit Us</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Daily Items</span></div>
+      <div class="stat"><span class="stat-num">4.8★</span><span class="stat-label">Customer Rating</span></div>
+      <div class="stat"><span class="stat-num">Dharwad</span><span class="stat-label">Karnataka</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img reveal">
+        <img src="https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=800&q=80" alt="Fresh bread at Kamat Bakery" loading="lazy" />
+        <div class="about-badge">Fresh Every Morning 🌅</div>
+      </div>
+      <div class="about-text reveal">
+        <div class="section-label" style="text-align:left">Our Story</div>
+        <h2>Baked with Love, Served with Pride</h2>
+        <p>Kamat Bakery is a cherished institution in Dharwad — a city famous for its culture, music, and now, its exceptional bread. We wake up before dawn so your morning begins with something extraordinary.</p>
+        <p>From our signature soft loaves to crunchy biscuits, cream rolls, and celebratory cakes, every item is made with hand-picked ingredients and a whole lot of heart.</p>
+        <div class="about-features">
+          <div class="feature-item"><div class="feature-icon">🌾</div> Fresh ingredients sourced daily</div>
+          <div class="feature-item"><div class="feature-icon">👨‍🍳</div> Traditional recipes perfected over decades</div>
+          <div class="feature-item"><div class="feature-icon">🎂</div> Custom cakes for every occasion</div>
+          <div class="feature-item"><div class="feature-icon">📦</div> Bulk & catering orders welcome</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="container">
+    <div class="section-label reveal">What We Bake</div>
+    <h2 class="section-title reveal">Our Menu</h2>
+    <p class="section-sub reveal">A carefully crafted selection baked fresh every single day.</p>
+
+    <div class="menu-tabs reveal">
+      <button class="tab-btn active" onclick="filterMenu('all', this)">All</button>
+      <button class="tab-btn" onclick="filterMenu('breads', this)">Breads</button>
+      <button class="tab-btn" onclick="filterMenu('cakes', this)">Cakes</button>
+      <button class="tab-btn" onclick="filterMenu('snacks', this)">Snacks & Biscuits</button>
+    </div>
+
+    <div class="menu-grid" id="menuGrid">
+      <!-- Breads -->
+      <div class="menu-card reveal" data-cat="breads">
+        <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=600&q=80" alt="White Bread" loading="lazy" /></div>
+        <div class="menu-card-body">
+          <h3>Classic White Bread</h3>
+          <p>Soft, fluffy loaf — perfect for breakfast and sandwiches.</p>
+          <div class="menu-card-footer"><span class="price">₹ 30</span><span class="badge-bestseller">Bestseller</span></div>
+        </div>
+      </div>
+      <div class="menu-card reveal" data-cat="breads">
+        <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=600&q=80" alt="Brown Bread" loading="lazy" /></div>
+        <div class="menu-card-body">
+          <h3>Whole Wheat Bread</h3>
+          <p>Hearty and wholesome — full of fibre and goodness.</p>
+          <div class="menu-card-footer"><span class="price">₹ 40</span><span class="badge-veg">Veg</span></div>
+        </div>
+      </div>
+      <div class="menu-card reveal" data-cat="breads">
+        <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80" alt="Cream Roll" loading="lazy" /></div>
+        <div class="menu-card-body">
+          <h3>Cream Roll</h3>
+          <p>Flaky pastry filled with fresh whipped cream. A local favourite.</p>
+          <div class="menu-card-footer"><span class="price">₹ 20</span><span class="badge-bestseller">Bestseller</span></div>
+        </div>
+      </div>
+
+      <!-- Cakes -->
+      <div class="menu-card reveal" data-cat="cakes">
+        <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80" alt="Birthday Cake" loading="lazy" /></div>
+        <div class="menu-card-body">
+          <h3>Birthday Cake</h3>
+          <p>Customised cream cakes in any flavour — pineapple, chocolate, butterscotch & more.</p>
+          <div class="menu-card-footer"><span class="price">₹ 450+</span><span class="badge-veg">Custom</span></div>
+        </div>
+      </div>
+      <div class="menu-card reveal" data-cat="cakes">
+        <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=600&q=80" alt="Plum Cake" loading="lazy" /></div>
+        <div class="menu-card-body">
+          <h3>Plum Cake</h3>
+          <p>Rich, dense fruit cake loaded with dry fruits and warm spices.</p>
+          <div class="menu-card-footer"><span class="price">₹ 220</span><span class="badge-bestseller">Bestseller</span></div>
+        </div>
+      </div>
+      <div class="menu-card reveal" data-cat="cakes">
+        <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=600&q=80" alt="Pastry" loading="lazy" /></div>
+        <div class="menu-card-body">
+          <h3>Fresh Pastries</h3>
+          <p>Chocolate, pineapple, strawberry — take your pick from our daily selection.</p>
+          <div class="menu-card-footer"><span class="price">₹ 60</span><span class="badge-veg">Veg</span></div>
+        </div>
+      </div>
+
+      <!-- Snacks -->
+      <div class="menu-card reveal" data-cat="snacks">
+        <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&q=80" alt="Biscuits" loading="lazy" /></div>
+        <div class="menu-card-body">
+          <h3>Butter Biscuits</h3>
+          <p>Crispy, melt-in-mouth biscuits — ideal with chai or coffee.</p>
+          <div class="menu-card-footer"><span class="price">₹ 60 / 250g</span><span class="badge-bestseller">Bestseller</span></div>
+        </div>
+      </div>
+      <div class="menu-card reveal" data-cat="snacks">
+        <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=600&q=80" alt="Cookies" loading="lazy" /></div>
+        <div class="menu-card-body">
+          <h3>Khari & Puff</h3>
+          <p>Flaky, buttery khari biscuits — Dharwad's snack-time staple.</p>
+          <div class="menu-card-footer"><span class="price">₹ 10</span><span class="badge-veg">Veg</span></div>
+        </div>
+      </div>
+      <div class="menu-card reveal" data-cat="snacks">
+        <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=600&q=80" alt="Rusk" loading="lazy" /></div>
+        <div class="menu-card-body">
+          <h3>Toast & Rusk</h3>
+          <p>Double-baked, crunchy toast — perfect for dipping in your morning tea.</p>
+          <div class="menu-card-footer"><span class="price">₹ 40 / 200g</span><span class="badge-veg">Veg</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-sub reveal" style="margin-top:2rem; font-size:.88rem;">Prices may vary. Visit us for the full selection — we bake seasonal specials too!</p>
+  </div>
+</section>
+
+<!-- SPECIALTIES -->
+<section id="specialties">
+  <div class="container">
+    <div class="section-label reveal">Why Choose Us</div>
+    <h2 class="section-title reveal">What Makes Us Special</h2>
+    <p class="section-sub reveal">More than a bakery — a Dharwad tradition.</p>
+    <div class="spec-grid">
+      <div class="spec-card reveal">
+        <div class="spec-icon">🌅</div>
+        <h3>Baked Fresh Daily</h3>
+        <p>We bake every morning so you always get the freshest product — nothing sits on our shelves from yesterday.</p>
+      </div>
+      <div class="spec-card reveal">
+        <div class="spec-icon">🎂</div>
+        <h3>Custom Cakes</h3>
+        <p>Tell us your dream cake and we'll create it — birthdays, anniversaries, or just because.</p>
+      </div>
+      <div class="spec-card reveal">
+        <div class="spec-icon">🌾</div>
+        <h3>Quality Ingredients</h3>
+        <p>Only the best flour, butter, and natural flavours go into our products. No shortcuts, ever.</p>
+      </div>
+      <div class="spec-card reveal">
+        <div class="spec-icon">📦</div>
+        <h3>Bulk Orders</h3>
+        <p>Offices, events, weddings — we handle large catering orders with the same care and quality.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-label reveal">Customer Love</div>
+    <h2 class="section-title reveal">What People Say</h2>
+    <p class="section-sub reveal">Real words from our wonderful customers.</p>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Kamat Bakery's bread is part of our family's morning routine. Soft, fresh, and absolutely delicious every single day!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">P</div>
+          <div><div class="reviewer-name">Priya S.</div><div class="reviewer-loc">Dharwad</div></div>
+        </div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"The best cream rolls in Dharwad, hands down. I've been a customer for over 10 years and the quality never drops."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">R</div>
+          <div><div class="reviewer-name">Rahul M.</div><div class="reviewer-loc">Dharwad</div></div>
+        </div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Ordered a custom birthday cake and it was beyond expectations. Beautiful, tasty, and delivered on time. Highly recommend!"</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">A</div>
+          <div><div class="reviewer-name">Anita K.</div><div class="reviewer-loc">Hubli</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label reveal">Get In Touch</div>
+    <h2 class="section-title reveal">Visit Kamat Bakery</h2>
+    <p class="section-sub reveal">Come find us in Dharwad — we'd love to see you.</p>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3>We're Open for You</h3>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Address</h4>
+            <p>Kamat Bakery, Dharwad, Karnataka, India</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <h4>Hours</h4>
+            <p>Mon – Sat: 7:00 AM – 9:00 PM<br/>Sunday: 8:00 AM – 8:00 PM</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <a href="tel:">Contact us for phone number</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <h4>Orders & Enquiries</h4>
+            <p>Walk in or call us for bulk orders and custom cakes.</p>
+          </div>
+        </div>
+        <a href="https://maps.app.goo.gl/vvYnuLNEeaQEWKZJ9" target="_blank" rel="noopener" class="map-link">
+          🗺 Open in Google Maps →
+        </a>
+      </div>
+      <div class="map-container reveal">
+        <iframe
+          src="https://maps.google.com/maps?q=15.4634015,75.0022747&z=16&output=embed"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Kamat Bakery Location">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Kamat <span>Bakery</span></div>
+  <p>Dharwad, Karnataka — Freshly baked goodness, every day.</p>
+  <p style="margin-top:1rem; font-size:.8rem;">© 2025 Kamat Bakery. All rights reserved.</p>
+</footer>
+
+<script>
+  // Sticky nav shadow
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => obs.observe(el));
+
+  // Menu filter
+  function filterMenu(cat, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.menu-card').forEach(card => {
+      const show = cat === 'all' || card.dataset.cat === cat;
+      card.style.display = show ? '' : 'none';
+    });
+  }
+</script>
+</body>
+</html>
