@@ -69,7 +69,10 @@
     .nav-cta:hover { background: var(--brown); transform: translateY(-1px); }
 
     /* nav logo image */
-    .nav-logo-img { height: 42px; width: 42px; object-fit: cover; border-radius: 8px; }
+    .nav-logo-img {
+      height: 58px; width: 58px; object-fit: contain;
+      background: var(--brown); border-radius: 12px; padding: 6px;
+    }
 
     /* hamburger */
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
@@ -342,7 +345,7 @@
       text-align: center; padding: 2.5rem 2rem;
       font-size: .88rem;
     }
-    footer .footer-logo img { height: 60px; border-radius: 10px; margin-bottom: .5rem; }
+    footer .footer-logo img { height: 60px; border-radius: 10px; margin-bottom: .5rem; mix-blend-mode: screen; }
     footer p { margin-top: .5rem; }
     .footer-social { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; }
     .footer-social a {
@@ -374,7 +377,7 @@
 <!-- NAV -->
 <nav id="navbar">
   <a href="#hero" class="nav-logo">
-    <img src="assets/logo2.jpeg" alt="Kamat Bakery Logo" class="nav-logo-img" />
+    <img src="assets/logo_white_transparent.png" alt="Kamat Bakery Logo" class="nav-logo-img" />
     Kamat <span>Bakery</span>
   </a>
   <ul class="nav-links">
@@ -626,7 +629,7 @@
           <div class="contact-icon">🕐</div>
           <div>
             <h4>Hours</h4>
-            <p>Mon – Sat: 7:00 AM – 9:00 PM<br/>Sunday: 8:00 AM – 8:00 PM</p>
+            <p>Tue – Sun: 7:00 AM – 9:00 PM<br/>Monday: 8:00 AM – 1:00 PM</p>
           </div>
         </div>
         <div class="contact-item">
